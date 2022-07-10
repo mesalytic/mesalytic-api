@@ -1,7 +1,9 @@
 const isImageUrl = require('is-image-url');
+const fs = require('fs');
 
 const express = require('express');
 const rateLimit = require('express-rate-limit');
+
 
 const limiter = rateLimit({
     windowMs: 15 * 60 * 1000,
@@ -19,8 +21,14 @@ const app = express();
 
 app.use(limiter);
 
+var endpointList = [];
+
+fs.readdir('./endpoints', (err, files) => {
+    files.forEach(file => endpointList.push(file.slice(0, -3)))
+})
+
 app.get('/', (req, res) => {
-    res.status(400).send({ success: false, message: "Bad Request: No Endpoint Specified"});
+    res.status(200).send({ endpoints: endpointList })
 });
 
 app.use('/:endpoint', async (req, res) => {
