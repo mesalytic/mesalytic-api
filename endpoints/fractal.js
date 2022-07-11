@@ -2,59 +2,14 @@ const router = require('express').Router();
 
 const Canvas = require('@napi-rs/canvas');
 
+const { nonBlockLoop, checkIfMandelSet } = require('../Utils');
+
 module.exports = async (req, res) => {
     const width = 1200;
     const height = 1200;
 
     const canvas = Canvas.createCanvas(width, height);
     const ctx = canvas.getContext('2d');
-
-    function checkIfMandelSet(x, y) {
-        let rCompRes = x;
-        let iCompRes = y;
-
-        const maxIterations = 300;
-
-        for (let i = 0; i < maxIterations; i++) {
-            const trc = rCompRes * rCompRes - iCompRes * iCompRes + x;
-            const tic = 2 * rCompRes * iCompRes + y;
-
-            rCompRes = trc;
-            iCompRes = tic;
-
-            if (rCompRes * iCompRes > 5) {
-                return (i / maxIterations) * 100;
-            }
-        }
-
-        return 0;
-    }
-
-    async function nonBlockLoop(iterations, func, args) {
-        let blockedSince = Date.now();
-
-        async function unblock() {
-            if (blockedSince + 15 > Date.now()) {
-                await new Promise(resolve => setImmediate(resolve));
-                blockedSince = Date.now();
-            }
-        }
-
-        for (let i = 0; i < iterations; i++) {
-            await unblock();
-            const response = await func(i, args);
-
-            if (response) {
-                args = response;
-            }
-
-            if (args?.break === true) {
-                delete args.break;
-                break;
-            }
-        }
-        return args;
-    }
 
     const magnificationFactor = 2000;
     const panX = Math.random() * 2;
