@@ -29,10 +29,10 @@ localhost:8239/circle?url=URL
 ```
 ```json
 {
-    success: true,
-    body: {
-        data: [Base64 Buffer Stream]
-        type: "Buffer"
+    "success": true,
+    "body": {
+        "data": [], //base64 data stream, most DiscordAPI wrappers accept stream buffer arrays
+        "type": "Buffer"
     }
 }
 ```
