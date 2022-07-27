@@ -47,5 +47,5 @@ app.get('*', (req, res) => {
     res.status(404).send('404');
 })
 
-app.listen(8239);
+app.listen(8239, '127.0.0.1');
 console.log('API Running');
