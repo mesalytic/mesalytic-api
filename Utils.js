@@ -187,4 +187,62 @@ module.exports = class Utils {
         ctx.putImageData(data, x, y);
         return ctx;
     }
+
+    static drawImageWithTint(ctx, image, color, x, y, width, height) {
+        const { fillStyle, globalAlpha } = ctx;
+        ctx.fillStyle = color;
+        ctx.drawImage(image, x, y, width, height);
+        ctx.globalAlpha = 0.5;
+        ctx.fillRect(x, y, width, height);
+        ctx.fillStyle = fillStyle;
+        ctx.globalAlpha = globalAlpha;
+    }
+
+    static streamToArray(stream) {
+        if (!stream.readable) return Promise.resolve([]);
+        
+        return new Promise((resolve, reject) => {
+            const array = [];
+            function onData(data) {
+                array.push(data);
+            }
+
+            function onEnd(error) {
+                if (error) reject(error);
+                else resolve(array);
+                cleanup();
+            }
+
+            function onClose() {
+                resolve(array);
+                cleanup();
+            }
+
+            function cleanup() {
+                stream.removeListener('data', onData);
+                stream.removeListener('end', onEnd);
+                stream.removeListener('error', onEnd);
+                stream.removeListener('close', onClose);
+            }
+
+            stream.on('data', onData);
+            stream.on('end', onEnd);
+            stream.on('error', onEnd);
+            stream.on('close', onClose);
+        })
+    }
+
+    static secondsToDhms(seconds) {
+        seconds = Number(seconds);
+
+        let d = Math.floor(seconds / (3600 * 24));
+        let h = Math.floor(seconds % (3600 * 24) / 3600);
+        let m = Math.floor(seconds % 3600 / 60);
+
+        let dDisplay = d > 0 ? d + (d == 1 ? "d " : "d ") : "";
+        let hDisplay = h > 0 ? h + (h == 1 ? "h " : "h ") : "";
+        let mDisplay = m > 0 ? m + (m == 1 ? "m " : "m ") : "";
+
+        return dDisplay + hDisplay + mDisplay;
+    }
 }
