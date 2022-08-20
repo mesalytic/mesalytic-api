@@ -1,6 +1,6 @@
 const router = require('express').Router();
 
-const Canvas = require('@napi-rs/canvas');
+const Canvas = require('canvas');
 const request = require('node-superfetch');
 
 module.exports = async (req, res) => {
