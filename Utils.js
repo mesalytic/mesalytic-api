@@ -297,4 +297,59 @@ module.exports = class Utils {
         ctx.putImageData(data, x, y);
         return ctx;
     }
+
+    static grayscale(ctx, w, h) {
+        const data = ctx.getImageData(0, 0, w, h);
+
+        for (let i = 0; i < data.data.length; i += 4) {
+            const brightness = 0.34 * data.data[i] + 0.5 * data.data[i + 1] + 0.16 * data.data[i + 2];
+
+            data.data[i] = brightness;
+            data.data[i + 1] = brightness;
+            data.data[i + 2] = brightness;
+        }
+
+        ctx.putImageData(data, 0, 0);
+
+        return ctx;
+    }
+
+    static invert(ctx, w, h) {
+        const data = ctx.getImageData(0, 0, w, h);
+
+        for (let i = 0; i < data.data.length; i += 4) {
+            data.data[i] = 255 - data.data[i];
+            data.data[i + 1] = 255 - data.data[i + 1];
+            data.data[i + 2] = 255 - data.data[i + 2];
+            data.data[i + 3] = 255;
+        }
+
+        ctx.putImageData(data, 0, 0);
+
+        return ctx;
+    }
+
+    static sepia(ctx, x, y, w, h) {
+        const data = ctx.getImageData(x, y, w, h);
+
+        for (let i = 0; i < data.data.length; i += 4) {
+            const brightness = (0.34 * data.data[i]) + (0.5 * data.data[i + 1]) + (0.16 * data.data[i + 2]);
+            data.data[i] = brightness + 100;
+            data.data[i + 1] = brightness + 50;
+            data.data[i + 2] = brightness;
+        }
+        
+        ctx.putImageData(data, x, y);
+        return ctx;
+    }
+
+    static shortenText(ctx, text, maxWidth) {
+        let shorten = false;
+        while (ctx.measureText(`${text}...`).width > maxWidth) {
+            if (!shorten) shorten = true;
+            text = text.substr(0, text.length - 1);
+        }
+
+        return shorten ? `${text}...` : text;
+    }
 }
