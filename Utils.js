@@ -273,4 +273,28 @@ module.exports = class Utils {
         ctx.putImageData(frame, x, y);
         return ctx;
     }
+
+    static glitch(ctx, amplitude, x, y, w, h, sl = 4) {
+        const data = ctx.getImageData(x, y, w, h);
+        const temp = ctx.getImageData(x, y, w, h);
+        
+        const stride = w * sl;
+
+        for (let i = 0; i < w; i++) {
+            for (let j = 0; j < h; j++) {
+                const xs = Math.round(amplitude * Math.sin(2 * Math.PI * 3 * (j / h)));
+                const ys = Math.round(amplitude * Math.cos(2 * Math.PI * 3 * (j / w)));
+
+                const dest = (j * stride) + (i * sl);
+                const src = ((j + ys) * stride) + ((i + xs) * sl);
+
+                data.data[dest] = temp.data[src];
+                data.data[dest + 1] = temp.data[src + 1];
+                data.data[dest + 2] = temp.data[src + 2];
+            }
+        }
+
+        ctx.putImageData(data, x, y);
+        return ctx;
+    }
 }
