@@ -1,6 +1,8 @@
-# the api for the mesalytic bot ithink
+# MesalyticAPI
 
-yes the api for some shitty image endpoints but wtvr
+An Image Generation API for Discord bots.
+
+The official production API is available [right here!](https://api.mesavirep.xyz)
 
 # Installation
 
