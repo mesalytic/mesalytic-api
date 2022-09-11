@@ -34,6 +34,10 @@ app.get('/', (req, res) => {
 app.use('/:endpoint', async (req, res) => {
     console.log(req.query);
     if (["fractal", "osu"].includes(req.params.endpoint)) require(`./endpoints/${req.params.endpoint}.js`)(req, res);
+    else if (req.params.endpoint == "math") {
+        req.query.expression.replace("   ", " %2B ")
+        require(`./endpoints/math.js`)(req, res);
+    }
     else {
         if (req.query.url === undefined) return res.status(400).send({ success: false, message: "Bad Request 400: No specified image url", data: null })
         if (!isImageUrl(req.query.url)) return res.status(400).send({ success: false, message: "Bad Request 400: Invalid image url", data: null })
