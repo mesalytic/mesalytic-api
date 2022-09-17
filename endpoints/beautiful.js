@@ -4,6 +4,9 @@ const Canvas = require('canvas');
 const request = require('node-superfetch');
 
 module.exports = async (req, res) => {
+    if (req.query.url === undefined) return res.status(400).send({ success: false, message: "Bad Request 400: No specified image url", data: null })
+    if (!isImageUrl(req.query.url)) return res.status(400).send({ success: false, message: "Bad Request 400: Invalid image url", data: null })
+        
     const { body } = await request.get(req.query.url);
 
     const base = await Canvas.loadImage("./assets/beautiful.png");

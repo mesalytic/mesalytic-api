@@ -9,7 +9,8 @@ Canvas.registerFont('./assets/toru.otf', {
 })
 
 module.exports = async (req, res) => {
-
+    if (req.query.user === undefined) return res.status(400).send({ success: false, message: "Bad Request 400: No Username Specified", data: null })
+    if (req.query.mode === undefined) return res.status(400).send({ success: false, message: "Bad Request 400: No GameMode specified", data: null })
     
     let userQuery = req.query.user;
     let modeQuery = req.query.mode;

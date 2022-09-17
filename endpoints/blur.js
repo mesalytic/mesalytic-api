@@ -7,6 +7,9 @@ const path = require('path');
 const { blur } = require('../Utils');
 
 module.exports = async (req, res) => {
+    if (req.query.url === undefined) return res.status(400).send({ success: false, message: "Bad Request 400: No specified image url", data: null })
+    if (!isImageUrl(req.query.url)) return res.status(400).send({ success: false, message: "Bad Request 400: Invalid image url", data: null })
+        
     const { body } = await request.get(req.query.url);
     
     const avatar = await Canvas.loadImage(body);

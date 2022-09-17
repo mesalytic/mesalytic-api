@@ -4,6 +4,12 @@ const Canvas = require('canvas');
 const request = require('node-superfetch');
 
 module.exports = async (req, res) => {
+    if (req.query.url === undefined) return res.status(400).send({ success: false, message: "Bad Request 400: No specified image url", data: null })
+    if (!isImageUrl(req.query.url)) return res.status(400).send({ success: false, message: "Bad Request 400: Invalid image url", data: null })
+    if (req.query.title === undefined) return res.status(400).send({ success: false, message: "Bad Request 400: No Custom Spotify Title", data: null })
+    if (req.query.author === undefined) return res.status(400).send({ success: false, message: "Bad Request 400: No Custom Title Author", data: null })
+    
+
     const base = await Canvas.loadImage('./assets/spotify.png');
 
     const author = req.query.author;

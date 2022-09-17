@@ -5,6 +5,11 @@ const request = require('node-superfetch');
 const { shortenText } = require('../Utils');
 
 module.exports = async (req, res) => {
+    if (req.query.url === undefined) return res.status(400).send({ success: false, message: "Bad Request 400: No specified image url", data: null })
+    if (!isImageUrl(req.query.url)) return res.status(400).send({ success: false, message: "Bad Request 400: Invalid image url", data: null })
+    if (req.query.game === undefined) return res.status(400).send({ success: false, message: "Bad Request 400: No Custom Steam Game", data: null })
+    if (req.query.player === undefined) return res.status(400).send({ success: false, message: "Bad Request 400: No Custom Steam User", data: null })
+    
     const base = await Canvas.loadImage('./assets/steam.png');
 
     const player = req.query.player;
