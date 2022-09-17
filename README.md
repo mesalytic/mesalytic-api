@@ -4,6 +4,9 @@ An Image Generation API for Discord bots.
 
 The official production API is available [right here!](https://api.mesavirep.xyz)
 
+# Prerequisites
+The `colornames.json` file needs to be obtained [here](https://colornames.org/download/) and put in the `assets` folder.
+
 # Installation
 
 1) Install [NodeJS v17.9.1](https://nodejs.org/download/release/v17.9.1/)
