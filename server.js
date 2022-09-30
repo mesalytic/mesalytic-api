@@ -31,7 +31,11 @@ app.get('/', (req, res) => {
     res.status(200).send({ endpoints: endpointList })
 });
 
-app.use('/:endpoint', async (req, res) => {
+app.use('/tmp/:music', async (req, res) => {
+    res.sendFile(`${process.cwd()}/tmp/${req.params.music}`);
+})
+
+app.use('/v1/:endpoint', async (req, res) => {
     if (!endpointList.includes(req.params.endpoint)) return res.redirect('/');
     require(`./endpoints/${req.params.endpoint}.js`)(req, res);
 })
