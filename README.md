@@ -6,13 +6,9 @@ The official production API is available [right here!](https://api.mesavirep.xyz
 
 ## Prerequisites
 
-The `colornames.json` file needs to be obtained [here](https://colornames.org/download/) and put in the `assets` folder.
+If you want to use the `/v1/color` endpoint :
 
-If you want to use the `/v1/music` endpoint :
-
-- You MUST have [Python 3](https://www.python.org/downloads/) downloaded with the [Deemix dependency](https://gitlab.com/RemixDev/deemix-py) downloaded.
-
-- You MUST have a .arl file with a Deezer ARL token inside the `config` folder. [More info here](https://en.deezercommunity.com/subscription-and-payments-5/how-do-find-my-personal-arl-number-on-deezer-68040?postid=200029#post200029)
+- The `colornames.json` file needs to be obtained [here](https://colornames.org/download/) and put in the `assets` folder.
 
 ## Installation
 
