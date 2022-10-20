@@ -2,6 +2,7 @@ const router = require('express').Router();
 
 const request = require('node-superfetch');
 const colorJson = require('../assets/colornames.json')
+const isImageUrl = require('is-image-url');
 
 module.exports = async (req, res) => {
     if (req.query.input === undefined) return res.status(400).send({ success: false, message: "Bad Request 400: No Color Input Specified", data: null })

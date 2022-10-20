@@ -3,6 +3,7 @@ const router = require('express').Router();
 const Canvas = require('canvas');
 const request = require('node-superfetch');
 const { grayscale, drawImageWithTint } = require('../Utils');
+const isImageUrl = require('is-image-url');
 
 module.exports = async (req, res) => {
     if (req.query.url === undefined) return res.status(400).send({ success: false, message: "Bad Request 400: No specified image url", data: null })

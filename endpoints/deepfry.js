@@ -3,6 +3,7 @@ const router = require('express').Router();
 const Canvas = require('canvas');
 const request = require('node-superfetch');
 const path = require('path');
+const isImageUrl = require('is-image-url');
 
 const { desaturate, contrast } = require('../Utils');
 
