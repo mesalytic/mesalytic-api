@@ -1,0 +1,69 @@
+{
+    "reset": {
+        "text": "25/10 - 1/11",
+        "dateString": "Tue Nov 01 2022 21:00:00 GMT+0100 (heure normale d’Europe centrale)",
+        "timestamp": 1667332800374
+    },
+    "items": [
+        {
+            "name": "Witch Kiriko Bundle",
+            "tags": "Legendary | Bundle (5 items)",
+            "price": "2600 Overwatch Coins",
+            "img": "https://bnetproduct-a.akamaihd.net//fff/d9c5f821c3b0ea8e899339beeb145c49-webWitchKirikoBundle.png?imwidth=&imdensity=2"
+        },
+        {
+            "name": "Executioner",
+            "tags": "Legendary | Skins | Junker Queen",
+            "price": "1900 Overwatch Coins",
+            "img": "https://bnetproduct-a.akamaihd.net//71/423b44a1599fe7f4725c694a061bda7d-webExecutionerJunkerQueen.png?imwidth=&imdensity=2"
+        },
+        {
+            "name": "Defenders of the Castle",
+            "tags": "Legendary | Bundle (4 items)",
+            "price": "4400 Overwatch Coins",
+            "img": "https://bnetproduct-a.akamaihd.net//fbf/dd78e43e2e39767eb41cb8f1d32f4c49-mediaItem?imwidth=&imdensity=2"
+        },
+        {
+            "name": "Dr. Junkenstein Bundle",
+            "tags": "Legendary | Bundle (6 items)",
+            "price": "2800 Overwatch Coins",
+            "img": "https://bnetproduct-a.akamaihd.net//12/4f5f89fcc581fc73c937691e09a24561-mediaItem?imwidth=&imdensity=2"
+        },
+        {
+            "name": "Bride",
+            "tags": "Legendary | Skins | Sombra",
+            "price": "1900 Overwatch Coins",
+            "img": "https://bnetproduct-a.akamaihd.net//59/94e288f33152661910141b34496a129b-mediaItem?imwidth=&imdensity=2"
+        },
+        {
+            "name": "Warlock Bundle",
+            "tags": "Legendary | Bundle (4 items)",
+            "price": "2200 Overwatch Coins",
+            "img": "https://bnetproduct-a.akamaihd.net//f81/c12db70fb9b50ef9cd2e8d13c0003c49-mediaItem?imwidth=&imdensity=2"
+        },
+        {
+            "name": "Banshee Bundle",
+            "tags": "Legendary | Bundle (4 items)",
+            "price": "2100 Overwatch Coins",
+            "img": "https://bnetproduct-a.akamaihd.net//fda/e7aed4eeccd38352701bb79f0db5173d-mediaItem?imwidth=&imdensity=2"
+        },
+        {
+            "name": "Van Helsing Bundle",
+            "tags": "Legendary | Bundle (4 items)",
+            "price": "2200 Overwatch Coins",
+            "img": "https://bnetproduct-a.akamaihd.net//6e/ee89dba0c026cb3ce253747f5472f35f-mediaItem?imwidth=&imdensity=2"
+        },
+        {
+            "name": "Slasher: 76 Bundle",
+            "tags": "Legendary | Bundle (5 items)",
+            "price": "2100 Overwatch Coins",
+            "img": "https://bnetproduct-a.akamaihd.net//fed/c368f10e54b43ffc9edf88fbc2165ec2-mediaItem?imwidth=&imdensity=2"
+        },
+        {
+            "name": "Mummy Bundle",
+            "tags": "Legendary | Bundle (4 items)",
+            "price": "2000 Overwatch Coins",
+            "img": "https://bnetproduct-a.akamaihd.net//f87/0afc553f4d52eabfc4905ef4e2b2dd3b-mediaItem?imwidth=&imdensity=2"
+        }
+    ]
+}

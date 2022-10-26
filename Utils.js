@@ -1,15 +1,20 @@
+const puppeteer = require('puppeteer');
+const fetch = require('node-fetch');
+const Canvas = require('canvas');
+const axios = require('axios').default;
+
 module.exports = class Utils {
     static blur(src, dst, width, height, radius) {
         var tableSize = radius * 2 + 1;
         var radiusPlus1 = radius + 1;
         var widthMinus1 = width - 1;
 
-        var r,g,b,a;
+        var r, g, b, a;
 
         var srcIndex = 0;
         var dstIndex;
         var p, next, prev;
-        var i,l,x,y,nextIndex,prevIndex;
+        var i, l, x, y, nextIndex, prevIndex;
 
         var sumTable = [];
         for (i = 0, l = 256 * tableSize; i < l; i += 1) {
@@ -33,7 +38,7 @@ module.exports = class Utils {
                 b += src[p + 2];
                 a += src[p + 3];
             }
-            
+
             for (x = 0; x < width; x += 1) {
                 p = dstIndex << 2;
                 dst[p] = sumTable[r];
@@ -58,7 +63,7 @@ module.exports = class Utils {
                 g += src[next + 1] - src[prev + 1];
                 b += src[next + 2] - src[prev + 2];
                 a += src[next + 3] - src[prev + 3];
-                
+
                 dstIndex += height;
             }
             srcIndex += width;
@@ -200,7 +205,7 @@ module.exports = class Utils {
 
     static streamToArray(stream) {
         if (!stream.readable) return Promise.resolve([]);
-        
+
         return new Promise((resolve, reject) => {
             const array = [];
             function onData(data) {
@@ -277,7 +282,7 @@ module.exports = class Utils {
     static glitch(ctx, amplitude, x, y, w, h, sl = 4) {
         const data = ctx.getImageData(x, y, w, h);
         const temp = ctx.getImageData(x, y, w, h);
-        
+
         const stride = w * sl;
 
         for (let i = 0; i < w; i++) {
@@ -338,7 +343,7 @@ module.exports = class Utils {
             data.data[i + 1] = brightness + 50;
             data.data[i + 2] = brightness;
         }
-        
+
         ctx.putImageData(data, x, y);
         return ctx;
     }
@@ -351,5 +356,97 @@ module.exports = class Utils {
         }
 
         return shorten ? `${text}...` : text;
+    }
+
+    static async getOverwatchShop(lang) {
+        const browser = await puppeteer.launch({
+            headless: true
+        });
+
+        const page = await browser.newPage();
+
+        await page.goto(`https://eu.shop.battle.net/${lang}/family/overwatch`);
+
+        await page.waitForSelector("#c1f75a13-697f-4032-a395-688a913b1823 > section > storefront-browsing-card-group-layout > ul")
+
+        let data = await page.evaluate(() => {
+            let nextResetSelector = document.querySelector("#c1f75a13-697f-4032-a395-688a913b1823 > section > div > div.browsing-card-group__timer.meka-font-display.meka-font-display--section-label.meka-font-display--section-label--small.ng-star-inserted > span")
+
+            function getOverwatchResetTime() {
+                const date = new Date();
+                let output;
+
+                if (nextResetSelector.innerText.endsWith("DAYS")) {
+                    date.setDate(date.getDate() + parseInt(nextResetSelector.innerText.split(" ")[3]));
+                    date.setHours(21)
+                    date.setMinutes(0)
+                    date.setSeconds(0)
+
+                    output = date.getTime();
+                } else if (nextResetSelector.innerText.endsWith("HOURS")) {
+                    date.setHours(date.getHours() + parseInt(nextResetSelector.innerText.split(" ")[3]));
+                    date.setMinutes(0)
+                    date.setSeconds(0)
+
+                    output = date.getTime();
+                } else if (nextResetSelector.innerText.endsWith("MINUTES")) {
+                    date.setMinutes(date.getMinutes() + parseInt(nextResetSelector.innerText.split(" ")[3]))
+                    date.setSeconds(0)
+
+                    output = date.getTime();
+                } else {
+                    date.setSeconds(date.getSeconds() + parseInt(nextResetSelector.innerText.split(" ")[3]))
+
+                    output = date.getTime();
+                }
+
+                let beforeDate = new Date(date.getTime());
+                beforeDate.setDate(beforeDate.getDate() - 7);
+
+                console.log(beforeDate.toString())
+                console.log(date.toString())
+
+                return {
+                    text: `${beforeDate.getDate()}/${beforeDate.getMonth() + 1} - ${date.getDate()}/${date.getMonth() + 1}`,
+                    dateString: date.toString(),
+                    timestamp: output
+                }
+            }
+
+            let li = document.querySelector("#c1f75a13-697f-4032-a395-688a913b1823 > section > storefront-browsing-card-group-layout > ul").getElementsByTagName('li');
+
+            let arr = [];
+            
+            for (let i = 0; i < li.length; i++) {
+                let price;
+
+                let priceSelector = document.querySelector(`#c1f75a13-697f-4032-a395-688a913b1823 > section > storefront-browsing-card-group-layout > ul > li:nth-child(${i + 1}) > storefront-browsing-card > div > storefront-link > a > meka-browsing-card > storefront-price > div > meka-price-label`).shadowRoot.querySelector("div > div.meka-price-label__details > div > div > span")
+                let img = document.querySelector(`#c1f75a13-697f-4032-a395-688a913b1823 > section > storefront-browsing-card-group-layout > ul > li:nth-child(${i + 1}) > storefront-browsing-card > div > storefront-link > a > meka-browsing-card > img`)
+                let tags = document.querySelector(`#c1f75a13-697f-4032-a395-688a913b1823 > section > storefront-browsing-card-group-layout > ul > li:nth-child(${i + 1}) > storefront-browsing-card > div > storefront-link > a > meka-browsing-card`).shadowRoot.querySelector("div > dl > dd.meka-browsing-card__details__description").innerText;
+
+                if (priceSelector == null) price = document.querySelector(`#c1f75a13-697f-4032-a395-688a913b1823 > section > storefront-browsing-card-group-layout > ul > li:nth-child(${i + 1}) > storefront-browsing-card > div > storefront-link > a > meka-browsing-card > storefront-price > div > meka-price-label`).shadowRoot.querySelector("div > div > div > div > span").innerText; // no discount
+                else price = priceSelector.innerText; // discount
+
+                arr.push({
+                    name: li[i].innerText,
+                    tags,
+                    price,
+                    img: img.getAttribute("src")
+                })
+            }
+
+            return {
+                reset: getOverwatchResetTime(),
+                items: arr
+            }
+        })
+
+        return data;
+    }
+
+    static getBase64FromUrl = async (url) => {
+        axios.get(url).then(res => {
+            return res.data
+        })
     }
 }
